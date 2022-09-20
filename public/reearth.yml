@@ -1,0 +1,12 @@
+name: Asahi Moroyama Sidebar
+version: 0.1.0
+id: reearth-plugin-asahi-moroyama
+extensions:
+  - id: sidebar
+    type: widget
+    name: Asahi Moroyama Sidebar
+    widgetLayout:
+      defaultLocation:
+        zone: outer
+        section: left
+        area: middle
