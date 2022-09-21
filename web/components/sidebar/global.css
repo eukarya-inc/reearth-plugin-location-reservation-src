@@ -16,11 +16,6 @@ iframe{
   display: block;
 }
 
-.ant-btn,
-.ant-btn.ant-btn-icon-only{
-  border-radius: 0;
-}
-
 .ant-tabs-top>.ant-tabs-nav{
   margin: 0;
 }

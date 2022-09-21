@@ -4,11 +4,17 @@ type CardProps = {
   padding?: string;
   children?: React.ReactNode;
   flex?: string;
+  gap?: string;
 };
 
-const Card: React.FC<CardProps> = ({ padding, children, flex }: CardProps) => {
+const Card: React.FC<CardProps> = ({
+  padding,
+  children,
+  flex,
+  gap,
+}: CardProps) => {
   return (
-    <Wrapper padding={padding} flex={flex}>
+    <Wrapper padding={padding} flex={flex} gap={gap}>
       {children}
     </Wrapper>
   );
@@ -18,7 +24,7 @@ const Wrapper = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: ${(props: any) => props.gap ?? "8px"};
   flex: ${(props: any) => props.flex ?? "none"};
   background: #fff;
   border-radius: 4px;

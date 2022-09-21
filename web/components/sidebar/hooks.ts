@@ -2,12 +2,35 @@ import type { actHandles } from "@web/types";
 import { postMsg } from "@web/utils/common";
 import { useState, useEffect, useMemo, useCallback } from "react";
 
+export type Area = {
+  id: string;
+  layerId: string;
+  radius: number;
+};
+
 export default () => {
   const [isSidebarShown, setSidebarShown] = useState(true);
 
-  const actHandles: actHandles = useMemo(() => {
-    return {};
+  const [areaList, setAreaList] = useState<Area[]>([]);
+
+  const addArea = useCallback((area: Area) => {
+    setAreaList((list) => [...list, area]);
   }, []);
+
+  const updateArea = useCallback((id: string, radius: number) => {
+    postMsg("updateArea", { id, radius });
+  }, []);
+
+  const removeArea = useCallback((id: string, layerId: string) => {
+    setAreaList((list) => list.filter((a) => a.id !== id));
+    postMsg("removeArea", layerId);
+  }, []);
+
+  const actHandles: actHandles = useMemo(() => {
+    return {
+      addArea: addArea,
+    };
+  }, [addArea]);
 
   useEffect(() => {
     (globalThis as any).addEventListener("message", (msg: any) => {
@@ -35,5 +58,8 @@ export default () => {
     isSidebarShown,
     hideSidebar,
     showSidebar,
+    areaList,
+    updateArea,
+    removeArea,
   };
 };

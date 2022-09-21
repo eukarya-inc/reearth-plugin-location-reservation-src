@@ -22,13 +22,26 @@ ConfigProvider.config({
 });
 
 const App = () => {
-  const { isSidebarShown, hideSidebar, showSidebar } = useHooks();
+  const {
+    isSidebarShown,
+    hideSidebar,
+    showSidebar,
+    areaList,
+    updateArea,
+    removeArea,
+  } = useHooks();
 
   const items = [
     {
       label: <Tab icon="pencil" text="Item 1" />,
       key: "item-1",
-      children: <PanelOne />,
+      children: (
+        <PanelOne
+          areaList={areaList}
+          updateArea={updateArea}
+          removeArea={removeArea}
+        />
+      ),
     },
     {
       label: <Tab text="Item 2" />,
@@ -52,7 +65,7 @@ const App = () => {
           icon={<CloseOutlined />}
           size={"middle"}
           onClick={hideSidebar}
-          style={{ position: "absolute", right: "0" }}
+          style={{ position: "absolute", right: "0", borderRadius: "0" }}
         />
         <Header />
         <Content>
