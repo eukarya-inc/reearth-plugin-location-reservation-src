@@ -34,8 +34,13 @@ export default () => {
 
   useEffect(() => {
     (globalThis as any).addEventListener("message", (msg: any) => {
-      if (msg.source !== (globalThis as any).parent || !msg.data.act) return;
-      actHandles[msg.data.act as keyof actHandles]?.(msg.data.payload);
+      if (msg.source !== (globalThis as any).parent) return;
+      try {
+        const data =
+          typeof msg.data === "string" ? JSON.parse(msg.data) : msg.data;
+        actHandles[data.act as keyof actHandles]?.(data.payload);
+        // eslint-disable-next-line no-empty
+      } catch (error) {}
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

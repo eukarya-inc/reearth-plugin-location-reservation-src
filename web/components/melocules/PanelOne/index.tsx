@@ -54,7 +54,7 @@ const PanelOne: React.FC<Props> = ({ areaList, updateArea, removeArea }) => {
                   min={1}
                   max={100}
                   defaultValue={50}
-                  onChange={(value) => {
+                  onAfterChange={(value) => {
                     updateArea(area.id, value);
                   }}
                 />
