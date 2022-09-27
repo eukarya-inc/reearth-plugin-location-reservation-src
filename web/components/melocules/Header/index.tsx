@@ -1,12 +1,13 @@
 import { styled } from "@web/theme";
 
-import Icon from "../../atoms/Icon";
+// import Icon from "../../atoms/Icon";
+import logo from "../../atoms/Icon/Icons/Logo.png";
 
 const Header: React.FC = () => {
   return (
     <StyledHeader>
-      <Icon icon="logo" size={24} />
-      <span style={{ padding: "0 5px" }}>Project Name</span>
+      <img src={logo} alt="Logo" width={23} height={32} />
+      <span style={{ padding: "0 5px" }}>毛呂山町都市公園利用申請</span>
     </StyledHeader>
   );
 };
