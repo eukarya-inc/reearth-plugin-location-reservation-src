@@ -53,6 +53,11 @@ export const web = (name: string): UserConfigExport => ({
           var: "styled-components",
           path: "https://unpkg.com/styled-components/dist/styled-components.min.js",
         },
+        {
+          name: "turf",
+          var: "turf",
+          path: "https://unpkg.com/@turf/turf@6.5.0/turf.min.js",
+        },
       ],
     }),
   ],
