@@ -29,6 +29,8 @@ const App = () => {
     areaList,
     updateArea,
     removeArea,
+    modelList,
+    removeModel,
   } = useHooks();
 
   const items = [
@@ -38,8 +40,10 @@ const App = () => {
       children: (
         <PanelOne
           areaList={areaList}
+          modelList={modelList}
           updateArea={updateArea}
           removeArea={removeArea}
+          removeModel={removeModel}
         />
       ),
     },

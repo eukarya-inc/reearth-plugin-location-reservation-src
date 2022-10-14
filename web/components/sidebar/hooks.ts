@@ -8,6 +8,11 @@ export type Area = {
   radius: number;
 };
 
+export type Model = {
+  id: string;
+  layerId: string;
+};
+
 export default () => {
   const [isSidebarShown, setSidebarShown] = useState(true);
 
@@ -26,11 +31,23 @@ export default () => {
     postMsg("removeArea", layerId);
   }, []);
 
+  const [modelList, setModelList] = useState<Model[]>([]);
+
+  const addModel = useCallback((model: Model) => {
+    setModelList((list) => [...list, model]);
+  }, []);
+
+  const removeModel = useCallback((id: string, layerId: string) => {
+    setModelList((list) => list.filter((a) => a.id !== id));
+    postMsg("removeModel", layerId);
+  }, []);
+
   const actHandles: actHandles = useMemo(() => {
     return {
-      addArea: addArea,
+      addArea,
+      addModel,
     };
-  }, [addArea]);
+  }, [addArea, addModel]);
 
   useEffect(() => {
     (globalThis as any).addEventListener("message", (msg: any) => {
@@ -66,5 +83,7 @@ export default () => {
     areaList,
     updateArea,
     removeArea,
+    modelList,
+    removeModel,
   };
 };
