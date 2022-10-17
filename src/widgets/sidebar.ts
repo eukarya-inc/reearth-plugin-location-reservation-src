@@ -12,6 +12,11 @@ type Area = {
   lat: number;
 };
 
+type Model = {
+  id: string;
+  layerId: string;
+};
+
 // Preload polygon
 const preloadPolygon = () => {
   const point = turf.point([0, 0], {
@@ -31,6 +36,7 @@ const preloadPolygon = () => {
       default: {
         type: "geojson",
         url: collection,
+        clampToGround: true,
       },
     },
   });
@@ -43,7 +49,6 @@ const areas: Area[] = [];
 
 const style = {
   stroke: "#00FF38",
-  "stroke-width": 10,
   "stroke-opacity": 1,
   fill: "#00FF38",
   "fill-opacity": 0.5,
@@ -104,6 +109,46 @@ const removeArea = (id: string) => {
   (globalThis as any).reearth.layers.hide(id);
 };
 
+// model
+let isAddingModel = false;
+const models: Model[] = [];
+
+const addModel = (lng: number, lat: number) => {
+  const id = (models.length + 1).toString();
+
+  const layerId = (globalThis as any).reearth.layers.add({
+    extensionId: "model",
+    isVisible: true,
+    title: `Model-${id}`,
+    property: {
+      default: {
+        location: {
+          lat,
+          lng,
+        },
+        model:
+          "https://api.test.reearth.dev/assets/01gfa2kn2c43x6eswqakxgz3cg.gltf",
+        scale: 1,
+      },
+    },
+  });
+
+  const model = {
+    id,
+    layerId,
+  };
+
+  models.push(model);
+
+  (globalThis as any).reearth.ui.postMessage(
+    JSON.stringify({ act: "addModel", payload: model })
+  );
+};
+
+const removeModel = (id: string) => {
+  (globalThis as any).reearth.layers.hide(id);
+};
+
 const handles: actHandles = {
   setSidebarShown: (shown: boolean) => {
     if (shown) {
@@ -115,8 +160,12 @@ const handles: actHandles = {
   setAddingArea: (adding: boolean) => {
     isAddingArea = adding;
   },
+  setAddingModel: (adding: boolean) => {
+    isAddingModel = adding;
+  },
   updateArea,
   removeArea,
+  removeModel,
 };
 
 (globalThis as any).reearth.ui.show(html, {
@@ -134,9 +183,14 @@ const handles: actHandles = {
 
 (globalThis as any).reearth.on("click", (msg: MouseEvent) => {
   // console.log(msg);
-  if (!isAddingArea) return;
+  if (!isAddingArea && !isAddingModel) return;
   if (msg.lng !== undefined && msg.lat !== undefined) {
-    addArea(msg.lng, msg.lat);
-    isAddingArea = false;
+    if (isAddingArea) {
+      addArea(msg.lng, msg.lat);
+      isAddingArea = false;
+    } else if (isAddingModel) {
+      addModel(msg.lng, msg.lat);
+      isAddingModel = false;
+    }
   }
 });
