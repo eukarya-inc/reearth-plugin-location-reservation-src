@@ -33,7 +33,7 @@ const App = () => {
 
   const items = [
     {
-      label: <Tab icon="pencil" text="Item 1" />,
+      label: <Tab icon="pencil" text="描画ツール" />,
       key: "item-1",
       children: (
         <PanelOne
@@ -44,7 +44,7 @@ const App = () => {
       ),
     },
     {
-      label: <Tab text="Item 2" />,
+      label: <Tab icon="send" text="申し込みフォーム" />,
       key: "item-2",
       children: <PanelTwo />,
     },
