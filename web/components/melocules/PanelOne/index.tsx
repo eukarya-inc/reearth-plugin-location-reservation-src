@@ -87,7 +87,7 @@ const PanelOne: React.FC<Props> = ({
             gap: "8px",
           }}
         >
-          <Icon icon="circle" size={16} />
+          <Icon icon="car" size={16} />
           <span>Add Model</span>
         </Button>
 
