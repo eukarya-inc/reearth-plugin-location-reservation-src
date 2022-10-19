@@ -5,16 +5,16 @@ extensions:
   - id: sidebar
     type: widget
     name: Asahi Moroyama Sidebar
-    widgetLayout:
-      defaultLocation:
-        zone: outer
-        section: left
-        area: middle
     schema:
       groups:
         - id: customize
           title: Customize
           fields:
             - id: modelurl
-              type: string
+              type: url
               title: Model URL
+    widgetLayout:
+      defaultLocation:
+        zone: outer
+        section: left
+        area: middle
