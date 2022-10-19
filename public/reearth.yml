@@ -10,3 +10,11 @@ extensions:
         zone: outer
         section: left
         area: middle
+    schema:
+      groups:
+        - id: customize
+          title: Customize
+          fields:
+            - id: modelurl
+              type: string
+              title: Model URL

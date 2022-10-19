@@ -1,6 +1,6 @@
 import type { actHandles } from "@web/types";
 import { postMsg } from "@web/utils/common";
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 
 export type Area = {
   id: string;
@@ -42,12 +42,25 @@ export default () => {
     postMsg("removeModel", layerId);
   }, []);
 
+  const isRequestingMap = useRef(false);
+
+  const getCaptureScreen = useCallback((payload: string) => {
+    isRequestingMap.current = false;
+    const fileName = "capture.png";
+    const link = document.createElement("a");
+    link.download = fileName;
+    link.href = payload;
+    link.click();
+    link.remove();
+  }, []);
+
   const actHandles: actHandles = useMemo(() => {
     return {
       addArea,
       addModel,
+      getCaptureScreen,
     };
-  }, [addArea, addModel]);
+  }, [addArea, addModel, getCaptureScreen]);
 
   useEffect(() => {
     (globalThis as any).addEventListener("message", (msg: any) => {
@@ -76,6 +89,13 @@ export default () => {
     }, 100);
   }, []);
 
+  const handleDownloadClick = useCallback(() => {
+    if (!isRequestingMap.current) {
+      postMsg("download");
+      isRequestingMap.current = true;
+    }
+  }, []);
+
   return {
     isSidebarShown,
     hideSidebar,
@@ -85,5 +105,6 @@ export default () => {
     removeArea,
     modelList,
     removeModel,
+    handleDownloadClick,
   };
 };

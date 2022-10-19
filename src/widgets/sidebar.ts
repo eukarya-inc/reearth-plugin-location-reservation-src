@@ -113,6 +113,10 @@ const removeArea = (id: string) => {
 let isAddingModel = false;
 const models: Model[] = [];
 
+const modelUrl =
+  (globalThis as any).reearth.widget.property?.customize?.modelurl ??
+  "https://static.reearth.io/assets/01gfje1hw5y8x4aw56ethzj5kx.gltf";
+
 const addModel = (lng: number, lat: number) => {
   const id = (models.length + 1).toString();
 
@@ -126,8 +130,7 @@ const addModel = (lng: number, lat: number) => {
           lat,
           lng,
         },
-        model:
-          "https://api.test.reearth.dev/assets/01gfa2kn2c43x6eswqakxgz3cg.gltf",
+        model: modelUrl,
         scale: 1,
       },
     },
@@ -166,6 +169,12 @@ const handles: actHandles = {
   updateArea,
   removeArea,
   removeModel,
+  download: () => {
+    (globalThis as any).reearth.ui.postMessage({
+      act: "getCaptureScreen",
+      payload: (globalThis as any).reearth.scene.captureScreen(),
+    });
+  },
 };
 
 (globalThis as any).reearth.ui.show(html, {
