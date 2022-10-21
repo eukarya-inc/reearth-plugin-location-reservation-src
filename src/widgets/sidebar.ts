@@ -115,7 +115,10 @@ const models: Model[] = [];
 
 const modelUrl =
   (globalThis as any).reearth.widget.property?.customize?.modelurl ??
-  "https://static.reearth.io/assets/01gfje1hw5y8x4aw56ethzj5kx.gltf";
+  "https://static.reearth.io/assets/01gfmby2qygyva6m783vmxfw4d.gltf";
+
+const scale =
+  (globalThis as any).reearth.widget.property?.customize?.scale ?? "1";
 
 const addModel = (lng: number, lat: number) => {
   const id = (models.length + 1).toString();
@@ -131,7 +134,8 @@ const addModel = (lng: number, lat: number) => {
           lng,
         },
         model: modelUrl,
-        scale: 1,
+        scale: scale,
+        heightReference: "clamp",
       },
     },
   });
