@@ -70,6 +70,7 @@ const addArea = (lng: number, lat: number) => {
       default: {
         type: "geojson",
         url: collection,
+        clampToGround: true,
       },
     },
   });
