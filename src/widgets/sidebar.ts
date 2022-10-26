@@ -167,9 +167,11 @@ const handles: actHandles = {
   },
   setAddingArea: (adding: boolean) => {
     isAddingArea = adding;
+    isAddingModel = false;
   },
   setAddingModel: (adding: boolean) => {
     isAddingModel = adding;
+    isAddingArea = false;
   },
   updateArea,
   removeArea,
