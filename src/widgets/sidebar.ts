@@ -115,8 +115,7 @@ let isAddingModel = false;
 const models: Model[] = [];
 
 const modelUrl =
-  (globalThis as any).reearth.widget.property?.customize?.modelurl ??
-  "https://static.reearth.io/assets/01gfmby2qygyva6m783vmxfw4d.gltf";
+  (globalThis as any).reearth.widget.property?.customize?.modelurl ?? undefined;
 
 const scale =
   (globalThis as any).reearth.widget.property?.customize?.scale ?? "1";
