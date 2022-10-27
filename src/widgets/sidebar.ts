@@ -70,6 +70,7 @@ const addArea = (lng: number, lat: number) => {
       default: {
         type: "geojson",
         url: collection,
+        clampToGround: true,
       },
     },
   });
@@ -113,6 +114,12 @@ const removeArea = (id: string) => {
 let isAddingModel = false;
 const models: Model[] = [];
 
+const modelUrl =
+  (globalThis as any).reearth.widget.property?.customize?.modelurl ?? undefined;
+
+const scale =
+  (globalThis as any).reearth.widget.property?.customize?.scale ?? "1";
+
 const addModel = (lng: number, lat: number) => {
   const id = (models.length + 1).toString();
 
@@ -126,9 +133,9 @@ const addModel = (lng: number, lat: number) => {
           lat,
           lng,
         },
-        model:
-          "https://api.test.reearth.dev/assets/01gfa2kn2c43x6eswqakxgz3cg.gltf",
-        scale: 1,
+        model: modelUrl,
+        scale: scale,
+        heightReference: "clamp",
       },
     },
   });
@@ -159,13 +166,21 @@ const handles: actHandles = {
   },
   setAddingArea: (adding: boolean) => {
     isAddingArea = adding;
+    isAddingModel = false;
   },
   setAddingModel: (adding: boolean) => {
     isAddingModel = adding;
+    isAddingArea = false;
   },
   updateArea,
   removeArea,
   removeModel,
+  download: () => {
+    (globalThis as any).reearth.ui.postMessage({
+      act: "getCaptureScreen",
+      payload: (globalThis as any).reearth.scene.captureScreen(),
+    });
+  },
 };
 
 (globalThis as any).reearth.ui.show(html, {

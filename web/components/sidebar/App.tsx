@@ -31,6 +31,7 @@ const App = () => {
     removeArea,
     modelList,
     removeModel,
+    handleDownloadClick,
   } = useHooks();
 
   const items = [
@@ -75,7 +76,7 @@ const App = () => {
         <Content>
           <Tabs centered items={items} />
         </Content>
-        <Footer />
+        <Footer handleDownloadClick={handleDownloadClick}/>
       </SidebarPanel>
     </ConfigProvider>
   );
