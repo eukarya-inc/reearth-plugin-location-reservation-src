@@ -18,7 +18,6 @@ export type Label = {
   layerId: string;
 };
 
-
 export default () => {
   const [isSidebarShown, setSidebarShown] = useState(true);
 
@@ -48,9 +47,7 @@ export default () => {
     postMsg("removeModel", layerId);
   }, []);
 
-
   const [labelList, setLabelList] = useState<Label[]>([]);
-
 
   const addLabel = useCallback((label: Label) => {
     setLabelList((list) => [...list, label]);

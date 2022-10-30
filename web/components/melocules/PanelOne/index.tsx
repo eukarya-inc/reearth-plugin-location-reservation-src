@@ -119,7 +119,6 @@ const PanelOne: React.FC<Props> = ({
         ))}
       </Card>
 
-
       <Card>
         <Button
           type="primary"
@@ -145,12 +144,12 @@ const PanelOne: React.FC<Props> = ({
               <CardTitle>
                 <CardSettingsLabel
                   type={"text"}
-                  defaultValue= {"Label"}
+                  defaultValue={"Label"}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                     updateLabel(label.id, event.target.value);
                   }}
                 />
-                </CardTitle>
+              </CardTitle>
               <DeleteButton
                 onClick={() => removeLabel(label.id, label.layerId)}
               >
@@ -196,8 +195,8 @@ const CardSettings = styled.div`
 const CardSettingsTitle = styled.div``;
 
 const CardSettingsLabel = styled.input`
-width: 200px;
-border: 1px #8C8C8C solid;
+  width: 200px;
+  border: 1px #8c8c8c solid;
 `;
 
 const CardSettingsTool = styled.div`

@@ -161,14 +161,9 @@ const removeModel = (id: string) => {
   (globalThis as any).reearth.layers.hide(id);
 };
 
-
-
-
-
 // Label
 let isAddingLabel = false;
 const labels: Label[] = [];
-
 
 const addLabel = (lng: number, lat: number) => {
   const id = (labels.length + 1).toString();
@@ -200,7 +195,6 @@ const addLabel = (lng: number, lat: number) => {
 
   labels.push(label);
 
-
   (globalThis as any).reearth.ui.postMessage(
     JSON.stringify({ act: "addLabel", payload: label })
   );
@@ -223,8 +217,6 @@ const updateLabel = ({ id, labeling }: { id: string; labeling: string }) => {
 const removeLabel = (id: string) => {
   (globalThis as any).reearth.layers.hide(id);
 };
-
-
 
 const handles: actHandles = {
   setSidebarShown: (shown: boolean) => {

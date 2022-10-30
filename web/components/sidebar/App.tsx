@@ -82,7 +82,7 @@ const App = () => {
         <Content>
           <Tabs centered items={items} />
         </Content>
-        <Footer handleDownloadClick={handleDownloadClick}/>
+        <Footer handleDownloadClick={handleDownloadClick} />
       </SidebarPanel>
     </ConfigProvider>
   );
