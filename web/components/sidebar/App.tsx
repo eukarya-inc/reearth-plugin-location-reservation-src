@@ -31,6 +31,9 @@ const App = () => {
     removeArea,
     modelList,
     removeModel,
+    labelList,
+    updateLabel,
+    removeLabel,
     handleDownloadClick,
   } = useHooks();
 
@@ -42,9 +45,12 @@ const App = () => {
         <PanelOne
           areaList={areaList}
           modelList={modelList}
+          labelList={labelList}
           updateArea={updateArea}
           removeArea={removeArea}
           removeModel={removeModel}
+          updateLabel={updateLabel}
+          removeLabel={removeLabel}
         />
       ),
     },

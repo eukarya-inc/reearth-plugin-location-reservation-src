@@ -17,6 +17,11 @@ type Model = {
   layerId: string;
 };
 
+type Label = {
+  id: string;
+  layerId: string;
+};
+
 // Preload polygon
 const preloadPolygon = () => {
   const point = turf.point([0, 0], {
@@ -156,6 +161,71 @@ const removeModel = (id: string) => {
   (globalThis as any).reearth.layers.hide(id);
 };
 
+
+
+
+
+// Label
+let isAddingLabel = false;
+const labels: Label[] = [];
+
+
+const addLabel = (lng: number, lat: number) => {
+  const id = (labels.length + 1).toString();
+
+  const layerId = (globalThis as any).reearth.layers.add({
+    extensionId: "marker",
+    isVisible: true,
+    title: `Label${id}`,
+    property: {
+      default: {
+        location: {
+          lat,
+          lng,
+        },
+        height: 15,
+        imageSize: 0,
+        label: true,
+        labelText: `Label`,
+        labelPosition: "top",
+        heightReference: "clamp",
+      },
+    },
+  });
+
+  const label = {
+    id,
+    layerId,
+  };
+
+  labels.push(label);
+
+
+  (globalThis as any).reearth.ui.postMessage(
+    JSON.stringify({ act: "addLabel", payload: label })
+  );
+};
+
+// update label
+
+const updateLabel = ({ id, labeling }: { id: string; labeling: string }) => {
+  if (!labeling) return;
+  const label = labels.find((a) => a.id === id);
+  if (!label) return;
+
+  (globalThis as any).reearth.layers.overrideProperty(label.layerId, {
+    default: {
+      labelText: labeling,
+    },
+  });
+};
+
+const removeLabel = (id: string) => {
+  (globalThis as any).reearth.layers.hide(id);
+};
+
+
+
 const handles: actHandles = {
   setSidebarShown: (shown: boolean) => {
     if (shown) {
@@ -167,14 +237,23 @@ const handles: actHandles = {
   setAddingArea: (adding: boolean) => {
     isAddingArea = adding;
     isAddingModel = false;
+    isAddingLabel = false;
   },
   setAddingModel: (adding: boolean) => {
     isAddingModel = adding;
     isAddingArea = false;
+    isAddingLabel = false;
+  },
+  setAddingLabel: (adding: boolean) => {
+    isAddingModel = false;
+    isAddingArea = false;
+    isAddingLabel = adding;
   },
   updateArea,
   removeArea,
   removeModel,
+  removeLabel,
+  updateLabel,
   download: () => {
     (globalThis as any).reearth.ui.postMessage({
       act: "getCaptureScreen",
@@ -198,7 +277,7 @@ const handles: actHandles = {
 
 (globalThis as any).reearth.on("click", (msg: MouseEvent) => {
   // console.log(msg);
-  if (!isAddingArea && !isAddingModel) return;
+  if (!isAddingArea && !isAddingModel && !isAddingLabel) return;
   if (msg.lng !== undefined && msg.lat !== undefined) {
     if (isAddingArea) {
       addArea(msg.lng, msg.lat);
@@ -206,6 +285,9 @@ const handles: actHandles = {
     } else if (isAddingModel) {
       addModel(msg.lng, msg.lat);
       isAddingModel = false;
+    } else if (isAddingLabel) {
+      addLabel(msg.lng, msg.lat);
+      isAddingLabel = false;
     }
   }
 });

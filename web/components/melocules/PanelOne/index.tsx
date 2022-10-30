@@ -1,5 +1,5 @@
 import Icon from "@web/components/atoms/Icon";
-import type { Area, Model } from "@web/components/sidebar/hooks";
+import type { Area, Model, Label } from "@web/components/sidebar/hooks";
 import { styled } from "@web/theme";
 import { postMsg } from "@web/utils/common";
 import { Slider, Button } from "antd";
@@ -10,17 +10,23 @@ import Card from "../../atoms/Card";
 type Props = {
   areaList: Area[];
   modelList: Model[];
+  labelList: Label[];
   updateArea: (id: string, radius: number) => void;
   removeArea: (id: string, layerId: string) => void;
   removeModel: (id: string, layerId: string) => void;
+  updateLabel: (id: string, labeling: string) => void;
+  removeLabel: (id: string, layerId: string) => void;
 };
 
 const PanelOne: React.FC<Props> = ({
   areaList,
   modelList,
+  labelList,
   updateArea,
   removeArea,
   removeModel,
+  updateLabel,
+  removeLabel,
 }) => {
   const startAddingArea = useCallback(() => {
     postMsg("setAddingArea", true);
@@ -28,6 +34,10 @@ const PanelOne: React.FC<Props> = ({
 
   const startAddingModel = useCallback(() => {
     postMsg("setAddingModel", true);
+  }, []);
+
+  const startAddingLabel = useCallback(() => {
+    postMsg("setAddingLabel", true);
   }, []);
 
   return (
@@ -108,6 +118,48 @@ const PanelOne: React.FC<Props> = ({
           </Card>
         ))}
       </Card>
+
+
+      <Card>
+        <Button
+          type="primary"
+          onClick={startAddingLabel}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "8px",
+          }}
+        >
+          <Icon icon="car" size={16} />
+          <span>Add Label</span>
+        </Button>
+
+        {labelList.length === 0 && (
+          <EmptyTip>Click the button and draw on the map please</EmptyTip>
+        )}
+
+        {labelList.map((label) => (
+          <Card padding="0" gap="0" key={label.id}>
+            <CardSettings>
+              <CardTitle>
+                <CardSettingsLabel
+                  type={"text"}
+                  defaultValue= {"Label"}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                    updateLabel(label.id, event.target.value);
+                  }}
+                />
+                </CardTitle>
+              <DeleteButton
+                onClick={() => removeLabel(label.id, label.layerId)}
+              >
+                <Icon icon="trash" />
+              </DeleteButton>
+            </CardSettings>
+          </Card>
+        ))}
+      </Card>
     </>
   );
 };
@@ -142,6 +194,11 @@ const CardSettings = styled.div`
 `;
 
 const CardSettingsTitle = styled.div``;
+
+const CardSettingsLabel = styled.input`
+width: 200px;
+border: 1px #8C8C8C solid;
+`;
 
 const CardSettingsTool = styled.div`
   flex: auto;

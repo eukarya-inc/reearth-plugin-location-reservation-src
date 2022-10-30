@@ -13,6 +13,12 @@ export type Model = {
   layerId: string;
 };
 
+export type Label = {
+  id: string;
+  layerId: string;
+};
+
+
 export default () => {
   const [isSidebarShown, setSidebarShown] = useState(true);
 
@@ -42,6 +48,23 @@ export default () => {
     postMsg("removeModel", layerId);
   }, []);
 
+
+  const [labelList, setLabelList] = useState<Label[]>([]);
+
+
+  const addLabel = useCallback((label: Label) => {
+    setLabelList((list) => [...list, label]);
+  }, []);
+
+  const updateLabel = useCallback((id: string, labeling: string) => {
+    postMsg("updateLabel", { id, labeling });
+  }, []);
+
+  const removeLabel = useCallback((id: string, layerId: string) => {
+    setLabelList((list) => list.filter((a) => a.id !== id));
+    postMsg("removeLabel", layerId);
+  }, []);
+
   const isRequestingMap = useRef(false);
 
   const getCaptureScreen = useCallback((payload: string) => {
@@ -58,9 +81,10 @@ export default () => {
     return {
       addArea,
       addModel,
+      addLabel,
       getCaptureScreen,
     };
-  }, [addArea, addModel, getCaptureScreen]);
+  }, [addArea, addModel, addLabel, getCaptureScreen]);
 
   useEffect(() => {
     (globalThis as any).addEventListener("message", (msg: any) => {
@@ -105,6 +129,9 @@ export default () => {
     removeArea,
     modelList,
     removeModel,
+    labelList,
+    updateLabel,
+    removeLabel,
     handleDownloadClick,
   };
 };
