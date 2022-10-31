@@ -125,7 +125,7 @@ const modelUrl =
 const scale =
   (globalThis as any).reearth.widget.property?.customize?.scale ?? "1";
 
-const addModel = (lng: number, lat: number) => {
+const addModel = (lng: number, lat: number, height: number) => {
   const id = (models.length + 1).toString();
 
   const layerId = (globalThis as any).reearth.layers.add({
@@ -134,13 +134,14 @@ const addModel = (lng: number, lat: number) => {
     title: `Model-${id}`,
     property: {
       default: {
+        height,
         location: {
           lat,
           lng,
         },
         model: modelUrl,
         scale: parseFloat(scale),
-        heightReference: "clamp",
+        heightReference: "none",
       },
     },
   });
@@ -275,7 +276,7 @@ const handles: actHandles = {
       addArea(msg.lng, msg.lat);
       isAddingArea = false;
     } else if (isAddingModel) {
-      addModel(msg.lng, msg.lat);
+      addModel(msg.lng, msg.lat, msg.height ?? 0);
       isAddingModel = false;
     } else if (isAddingLabel) {
       addLabel(msg.lng, msg.lat);
