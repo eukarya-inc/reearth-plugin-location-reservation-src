@@ -139,7 +139,7 @@ const addModel = (lng: number, lat: number) => {
           lng,
         },
         model: modelUrl,
-        scale: scale,
+        scale: parseFloat(scale),
         heightReference: "clamp",
       },
     },
