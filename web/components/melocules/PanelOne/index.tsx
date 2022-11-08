@@ -130,8 +130,8 @@ const PanelOne: React.FC<Props> = ({
             gap: "8px",
           }}
         >
-          <Icon icon="car" size={16} />
-          <span>Add Label</span>
+          <Icon icon="text" size={16} />
+          <span>Add Text</span>
         </Button>
 
         {labelList.length === 0 && (
