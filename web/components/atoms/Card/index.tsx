@@ -7,12 +7,7 @@ type CardProps = {
   gap?: string;
 };
 
-const Card: React.FC<CardProps> = ({
-  padding,
-  children,
-  flex,
-  gap,
-}: CardProps) => {
+const Card: React.FC<CardProps> = ({ padding, children, flex, gap }) => {
   return (
     <Wrapper padding={padding} flex={flex} gap={gap}>
       {children}

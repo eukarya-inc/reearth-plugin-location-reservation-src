@@ -1,13 +1,13 @@
 import { styled } from "@web/theme";
 
-// import Icon from "../../atoms/Icon";
-import logo from "../../atoms/Icon/Icons/Logo.png";
+type Props = {
+  title: string;
+};
 
-const Header: React.FC = () => {
+const Header: React.FC<Props> = ({ title }) => {
   return (
     <StyledHeader>
-      <img src={logo} alt="Logo" width={23} height={32} />
-      <span style={{ padding: "0 5px" }}>毛呂山町都市公園利用申請</span>
+      <span style={{ padding: "0 5px" }}>{title}</span>
     </StyledHeader>
   );
 };
@@ -18,7 +18,7 @@ const StyledHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #00bebe;
+  color: var(--theme-color);
   font-size: large;
   padding-top: 12px;
 `;

@@ -1,10 +1,10 @@
 {
-  "name": "asahi-moroyama-plugin",
+  "name": "location-reservation-plugin",
   "version": "0.1.0",
   "license": "MIT",
   "private": true,
   "type": "module",
-  "main": "./dist/reearth-plugin-asahi-moroyama.js",
+  "main": "./dist/reearth-plugin-location-reservation.js",
   "engines": {
     "node": ">=16"
   },

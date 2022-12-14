@@ -5,7 +5,7 @@ type Props = {
   gap?: string;
 };
 
-const Center: React.FC<Props> = ({ children, gap }: Props) => {
+const Center: React.FC<Props> = ({ children, gap }) => {
   return <Wrapper gap={gap}>{children}</Wrapper>;
 };
 

@@ -22,14 +22,15 @@ type Label = {
   layerId: string;
 };
 
-// Preload polygon
+// ===============================
+// Areas
+// ===============================
 const preloadPolygon = () => {
   const point = turf.point([0, 0], {
-    stroke: "#00FF38",
-    "stroke-width": 10,
-    "stroke-opacity": 0,
-    fill: "#00FF38",
-    "fill-opacity": 0,
+    stroke: "#000000",
+    "stroke-opacity": 1,
+    fill: "#000000",
+    "fill-opacity": 0.5,
   });
   const buffered = turf.buffer(point, 0.1, { units: "kilometers" });
   const collection = turf.featureCollection([buffered]);
@@ -52,18 +53,25 @@ preloadPolygon();
 let isAddingArea = false;
 const areas: Area[] = [];
 
-const style = {
-  stroke: "#00FF38",
+const areaColorHex =
+  (globalThis as any).reearth.widget.property?.customize?.areacolor ??
+  "#00FF3880";
+
+const areaColor = areaColorHex.slice(0, 7);
+const areaOpacity = parseInt(areaColorHex.slice(7, 9), 16) / 256;
+
+const areaStyle = {
+  stroke: areaColor,
   "stroke-opacity": 1,
-  fill: "#00FF38",
-  "fill-opacity": 0.5,
+  fill: areaColor,
+  "fill-opacity": areaOpacity,
 };
 
 const addArea = (lng: number, lat: number) => {
   const id = (areas.length + 1).toString();
   const radius = 50;
 
-  const point = turf.point([lng, lat], style);
+  const point = turf.point([lng, lat], areaStyle);
   const buffered = turf.buffer(point, radius * 0.001, { units: "kilometers" });
   const collection = turf.featureCollection([buffered]);
 
@@ -100,7 +108,7 @@ const updateArea = ({ id, radius }: { id: string; radius: number }) => {
   const area = areas.find((a) => a.id === id);
   if (!area) return;
 
-  const point = turf.point([area.lng, area.lat], style);
+  const point = turf.point([area.lng, area.lat], areaStyle);
   const buffered = turf.buffer(point, radius * 0.001, { units: "kilometers" });
   const collection = turf.featureCollection([buffered]);
   (globalThis as any).reearth.layers.overrideProperty(area.layerId, {
@@ -115,17 +123,21 @@ const removeArea = (id: string) => {
   (globalThis as any).reearth.layers.hide(id);
 };
 
-// model
+// ===============================
+// 3D Car Model
+// ===============================
 let isAddingModel = false;
 const models: Model[] = [];
 
 const modelUrl =
-  (globalThis as any).reearth.widget.property?.customize?.modelurl ?? undefined;
+  (globalThis as any).reearth.widget.property?.customize?.modelurl ??
+  "https://raw.githubusercontent.com/reearth/reearth-plugin-location-reservation/main/car.gltf";
 
 const scale =
   (globalThis as any).reearth.widget.property?.customize?.scale ?? "1";
 
 const addModel = (lng: number, lat: number, height: number) => {
+  if (!modelUrl) return;
   const id = (models.length + 1).toString();
 
   const layerId = (globalThis as any).reearth.layers.add({
@@ -162,7 +174,9 @@ const removeModel = (id: string) => {
   (globalThis as any).reearth.layers.hide(id);
 };
 
+// ===============================
 // Label
+// ===============================
 let isAddingLabel = false;
 const labels: Label[] = [];
 
@@ -202,7 +216,6 @@ const addLabel = (lng: number, lat: number) => {
 };
 
 // update label
-
 const updateLabel = ({ id, labeling }: { id: string; labeling: string }) => {
   if (!labeling) return;
   const label = labels.find((a) => a.id === id);
@@ -219,6 +232,9 @@ const removeLabel = (id: string) => {
   (globalThis as any).reearth.layers.hide(id);
 };
 
+// ===============================
+// COMMON
+// ===============================
 const handles: actHandles = {
   setSidebarShown: (shown: boolean) => {
     if (shown) {
@@ -261,6 +277,21 @@ const handles: actHandles = {
   extended: true,
 });
 
+(globalThis as any).reearth.ui.postMessage({
+  act: "initProperties",
+  payload: {
+    title: (globalThis as any).reearth.widget.property?.customize?.title,
+    iframeURL: (globalThis as any).reearth.widget.property?.customize
+      ?.iframeurl,
+    themeColor: (globalThis as any).reearth.widget.property?.customize
+      ?.themecolor,
+    modelURL: modelUrl,
+  },
+});
+
+// ===============================
+// Events
+// ===============================
 (globalThis as any).reearth.on("message", (msg: string) => {
   const data = JSON.parse(msg);
   if (data?.act) {
@@ -269,7 +300,6 @@ const handles: actHandles = {
 });
 
 (globalThis as any).reearth.on("click", (msg: MouseEvent) => {
-  // console.log(msg);
   if (!isAddingArea && !isAddingModel && !isAddingLabel) return;
   if (msg.lng !== undefined && msg.lat !== undefined) {
     if (isAddingArea) {

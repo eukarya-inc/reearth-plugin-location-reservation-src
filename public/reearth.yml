@@ -1,24 +1,39 @@
-name: Asahi Moroyama Sidebar
-version: 1.1.0
-id: reearth-plugin-asahi-moroyama
+name: Location Reservation
+version: 1.0.0
+id: reearth-plugin-location-reservation
 extensions:
   - id: sidebar
     type: widget
-    name: Asahi Moroyama Sidebar
+    name: Location Reservation
+    singleOnly: true
     schema:
       groups:
         - id: customize
-          title: Customize
+          title: Location Reservation
           fields:
+            - id: title
+              type: string
+              title: Title
+            - id: iframeurl
+              type: string
+              title: Iframe URL
             - id: modelurl
               type: url
-              title: Model URL
+              title: 3d Car
             - id: scale
               type: number
               title: Scale
               description: Displays the 3D model equally multiplied by the set value.
               prefix: x
               defaultValue: 1
+            - id: themecolor
+              type: string
+              title: Theme color
+              ui: color
+            - id: areacolor
+              type: string
+              title: Area color
+              ui: color
     widgetLayout:
       defaultLocation:
         zone: outer

@@ -6,7 +6,7 @@ type Props = {
   text?: string;
 };
 
-const Tab: React.FC<Props> = ({ icon, text }: Props) => {
+const Tab: React.FC<Props> = ({ icon, text }) => {
   return (
     <Center gap="8px">
       {icon && <Icon icon={icon} size={20} />}

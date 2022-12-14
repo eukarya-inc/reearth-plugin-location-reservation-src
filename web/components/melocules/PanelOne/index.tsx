@@ -1,44 +1,26 @@
 import Icon from "@web/components/atoms/Icon";
-import type { Area, Model, Label } from "@web/components/sidebar/hooks";
 import { styled } from "@web/theme";
-import { postMsg } from "@web/utils/common";
 import { Slider, Button } from "antd";
-import { useCallback } from "react";
 
 import Card from "../../atoms/Card";
 
-type Props = {
-  areaList: Area[];
-  modelList: Model[];
-  labelList: Label[];
-  updateArea: (id: string, radius: number) => void;
-  removeArea: (id: string, layerId: string) => void;
-  removeModel: (id: string, layerId: string) => void;
-  updateLabel: (id: string, labeling: string) => void;
-  removeLabel: (id: string, layerId: string) => void;
-};
+import useHooks from "./hooks";
 
-const PanelOne: React.FC<Props> = ({
-  areaList,
-  modelList,
-  labelList,
-  updateArea,
-  removeArea,
-  removeModel,
-  updateLabel,
-  removeLabel,
-}) => {
-  const startAddingArea = useCallback(() => {
-    postMsg("setAddingArea", true);
-  }, []);
-
-  const startAddingModel = useCallback(() => {
-    postMsg("setAddingModel", true);
-  }, []);
-
-  const startAddingLabel = useCallback(() => {
-    postMsg("setAddingLabel", true);
-  }, []);
+const PanelOne: React.FC = () => {
+  const {
+    areaList,
+    updateArea,
+    removeArea,
+    startAddingArea,
+    modelList,
+    modelURL,
+    removeModel,
+    startAddingModel,
+    labelList,
+    updateLabel,
+    removeLabel,
+    startAddingLabel,
+  } = useHooks();
 
   return (
     <>
@@ -86,38 +68,40 @@ const PanelOne: React.FC<Props> = ({
         ))}
       </Card>
 
-      <Card>
-        <Button
-          type="primary"
-          onClick={startAddingModel}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "8px",
-          }}
-        >
-          <Icon icon="car" size={16} />
-          <span>Add Model</span>
-        </Button>
+      {!!modelURL && (
+        <Card>
+          <Button
+            type="primary"
+            onClick={startAddingModel}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "8px",
+            }}
+          >
+            <Icon icon="car" size={16} />
+            <span>Add 3D Car</span>
+          </Button>
 
-        {modelList.length === 0 && (
-          <EmptyTip>Click the button and draw on the map please</EmptyTip>
-        )}
+          {modelList.length === 0 && (
+            <EmptyTip>Click the button and draw on the map please</EmptyTip>
+          )}
 
-        {modelList.map((model, index) => (
-          <Card padding="0" gap="0" key={model.id}>
-            <CardSettings>
-              <CardTitle>Model {index + 1}</CardTitle>
-              <DeleteButton
-                onClick={() => removeModel(model.id, model.layerId)}
-              >
-                <Icon icon="trash" />
-              </DeleteButton>
-            </CardSettings>
-          </Card>
-        ))}
-      </Card>
+          {modelList.map((model, index) => (
+            <Card padding="0" gap="0" key={model.id}>
+              <CardSettings>
+                <CardTitle>Model {index + 1}</CardTitle>
+                <DeleteButton
+                  onClick={() => removeModel(model.id, model.layerId)}
+                >
+                  <Icon icon="trash" />
+                </DeleteButton>
+              </CardSettings>
+            </Card>
+          ))}
+        </Card>
+      )}
 
       <Card>
         <Button
@@ -141,19 +125,17 @@ const PanelOne: React.FC<Props> = ({
         {labelList.map((label) => (
           <Card padding="0" gap="0" key={label.id}>
             <CardSettings>
-              <CardTitle>
-                <CardSettingsLabel
-                  type={"text"}
-                  defaultValue={"Label"}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                    updateLabel(label.id, event.target.value);
-                  }}
-                />
-              </CardTitle>
+              <CardSettingsLabel
+                type={"text"}
+                defaultValue={"Label"}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  updateLabel(label.id, event.target.value);
+                }}
+              />
               <DeleteButton
                 onClick={() => removeLabel(label.id, label.layerId)}
               >
-                <Icon icon="trash" />
+                <Icon size={16} icon="trash" />
               </DeleteButton>
             </CardSettings>
           </Card>
@@ -189,14 +171,19 @@ const CardSettings = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 12px;
-  gap: 10px;
+  gap: 12px;
 `;
 
 const CardSettingsTitle = styled.div``;
-
 const CardSettingsLabel = styled.input`
-  width: 200px;
-  border: 1px #8c8c8c solid;
+  width: 100%;
+  border: 1px #d9d9d9 solid;
+  border-radius: 2px;
+  height: 32px;
+  line-height: 32px;
+  padding: 5px 12px;
+  outline: none;
+  font-size: 14px;
 `;
 
 const CardSettingsTool = styled.div`
