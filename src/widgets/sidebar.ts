@@ -58,7 +58,7 @@ const areaColorHex =
   "#00FF3880";
 
 const areaColor = areaColorHex.slice(0, 7);
-const areaOpacity = parseInt(areaColorHex.slice(7, 9), 16) / 256;
+const areaOpacity = parseInt(areaColorHex.slice(7, 9) || "ff", 16) / 256;
 
 const areaStyle = {
   stroke: areaColor,
