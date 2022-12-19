@@ -131,7 +131,7 @@ const models: Model[] = [];
 
 const modelUrl =
   (globalThis as any).reearth.widget.property?.customize?.modelurl ??
-  "https://raw.githubusercontent.com/reearth/reearth-plugin-location-reservation-src/main/assets/car.gltf";
+  "https://raw.githubusercontent.com/reearth/reearth-plugin-location-reservation-src/main/assets/tent.glb";
 
 const scale =
   (globalThis as any).reearth.widget.property?.customize?.scale ?? "1";
