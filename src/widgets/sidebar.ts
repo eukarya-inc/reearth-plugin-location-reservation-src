@@ -124,7 +124,7 @@ const removeArea = (id: string) => {
 };
 
 // ===============================
-// 3D Car Model
+// 3D Model
 // ===============================
 let isAddingModel = false;
 const models: Model[] = [];

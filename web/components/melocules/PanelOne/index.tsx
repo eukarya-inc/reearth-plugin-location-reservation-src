@@ -36,7 +36,7 @@ const PanelOne: React.FC = () => {
           }}
         >
           <Icon icon="circle" size={16} />
-          <span>Add area</span>
+          <span>Add Area</span>
         </Button>
 
         {areaList.length === 0 && (
@@ -81,7 +81,7 @@ const PanelOne: React.FC = () => {
             }}
           >
             <Icon icon="car" size={16} />
-            <span>Add 3D Car</span>
+            <span>Add 3D Model</span>
           </Button>
 
           {modelList.length === 0 && (

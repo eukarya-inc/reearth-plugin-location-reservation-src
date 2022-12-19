@@ -19,10 +19,10 @@ extensions:
               title: Iframe URL
             - id: modelurl
               type: url
-              title: 3d Car
+              title: 3D Model
             - id: scale
               type: number
-              title: Scale
+              title: 3D Model Scale
               description: Displays the 3D model equally multiplied by the set value.
               prefix: x
               defaultValue: 1
