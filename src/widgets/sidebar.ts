@@ -1,5 +1,6 @@
 import * as turf from "@turf/turf";
 
+import indicator from "../../dist/web/indicator/index.html?raw";
 import html from "../../dist/web/sidebar/index.html?raw";
 import type { MouseEvent } from "../apiType";
 import type { actHandles } from "../type";
@@ -233,6 +234,31 @@ const removeLabel = (id: string) => {
 };
 
 // ===============================
+// Indicator
+// ===============================
+let localAddingStatus = "none";
+
+const updateIndicator = (status: string) => {
+  if (status === "none") {
+    (globalThis as any).reearth.popup.close();
+  } else {
+    (globalThis as any).reearth.popup.show(indicator, {
+      width: 355,
+      height: 40,
+      position: "right-start",
+      offset: 8,
+    });
+    (globalThis as any).reearth.popup.postMessage({
+      act: "initProperties",
+      payload: {
+        themeColor: (globalThis as any).reearth.widget.property?.customize
+          ?.themecolor,
+      },
+    });
+  }
+};
+
+// ===============================
 // COMMON
 // ===============================
 const handles: actHandles = {
@@ -243,20 +269,14 @@ const handles: actHandles = {
       (globalThis as any).reearth.ui.resize(40, 40, false);
     }
   },
-  setAddingArea: (adding: boolean) => {
-    isAddingArea = adding;
-    isAddingModel = false;
-    isAddingLabel = false;
-  },
-  setAddingModel: (adding: boolean) => {
-    isAddingModel = adding;
-    isAddingArea = false;
-    isAddingLabel = false;
-  },
-  setAddingLabel: (adding: boolean) => {
-    isAddingModel = false;
-    isAddingArea = false;
-    isAddingLabel = adding;
+  setAdding: (status: string) => {
+    isAddingArea = status === "area";
+    isAddingModel = status === "model";
+    isAddingLabel = status === "label";
+    if (status !== localAddingStatus) {
+      updateIndicator(status);
+    }
+    localAddingStatus = status;
   },
   updateArea,
   removeArea,

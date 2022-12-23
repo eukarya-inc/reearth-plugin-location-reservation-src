@@ -2,6 +2,7 @@
 
 import { ReactComponent as Car } from "./Icons/Car.svg";
 import { ReactComponent as Circle } from "./Icons/Circle.svg";
+import { ReactComponent as Info } from "./Icons/Info.svg";
 import { ReactComponent as Map } from "./Icons/Map.svg";
 import { ReactComponent as Model } from "./Icons/Model.svg";
 import { ReactComponent as Pencil } from "./Icons/Pencil.svg";
@@ -20,4 +21,5 @@ export default {
   map: Map,
   question: Question,
   model: Model,
+  info: Info,
 };

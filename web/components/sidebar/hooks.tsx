@@ -37,7 +37,6 @@ export default () => {
 
   const updateProperties = useCallback(
     ({ title, iframeURL, themeColor }: widgetProperties) => {
-      console.log("update", title, iframeURL, themeColor);
       setTitle(title);
       setIframeURL(iframeURL);
       updateTheme(themeColor);

@@ -20,13 +20,31 @@ export type Label = {
 export default () => {
   // add status
   const [addingStatus, setAddingStatus] = useState<string>("none");
+  const setAdding = useCallback((status: string) => {
+    setAddingStatus(status);
+    postMsg("setAdding", status);
+  }, []);
+
+  const addBtnStyle = useMemo(() => {
+    return {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: "8px",
+      padding: 0,
+    };
+  }, []);
+
   // areas
   const [areaList, setAreaList] = useState<Area[]>([]);
 
-  const addArea = useCallback((area: Area) => {
-    setAreaList((list) => [...list, area]);
-    setAddingStatus("none");
-  }, []);
+  const addArea = useCallback(
+    (area: Area) => {
+      setAreaList((list) => [...list, area]);
+      setAdding("none");
+    },
+    [setAdding]
+  );
 
   const updateArea = useCallback((id: string, radius: number) => {
     postMsg("updateArea", { id, radius });
@@ -38,22 +56,18 @@ export default () => {
   }, []);
 
   const startAddingArea = useCallback(() => {
-    postMsg("setAddingArea", true);
-    setAddingStatus("area");
-  }, []);
+    const isAddingArea = addingStatus === "area";
+    setAdding(isAddingArea ? "none" : "area");
+  }, [addingStatus, setAdding]);
 
   const addAreaBtnStyle = useMemo(() => {
     return {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      gap: "8px",
-      padding: 0,
-      color: "#fff",
-      background: addingStatus === "area" ? "#ADADAD" : "var(--theme-color)",
-      borderColor: addingStatus === "area" ? "#ADADAD" : "var(--theme-color)",
+      ...addBtnStyle,
+      color: addingStatus === "area" ? "rgba(0, 0, 0, 0.25)" : "#FFF",
+      background: addingStatus === "area" ? "#F5F5F5" : "var(--theme-color)",
+      borderColor: addingStatus === "area" ? "#D9D9D9" : "var(--theme-color)",
     };
-  }, [addingStatus]);
+  }, [addBtnStyle, addingStatus]);
 
   // models
   const [modelList, setModelList] = useState<Model[]>([]);
@@ -61,10 +75,13 @@ export default () => {
     (window as any).pluginInitProperties?.modelURL ?? ""
   );
 
-  const addModel = useCallback((model: Model) => {
-    setModelList((list) => [...list, model]);
-    setAddingStatus("none");
-  }, []);
+  const addModel = useCallback(
+    (model: Model) => {
+      setModelList((list) => [...list, model]);
+      setAdding("none");
+    },
+    [setAdding]
+  );
 
   const removeModel = useCallback((id: string, layerId: string) => {
     setModelList((list) => list.filter((a) => a.id !== id));
@@ -72,30 +89,29 @@ export default () => {
   }, []);
 
   const startAddingModel = useCallback(() => {
-    postMsg("setAddingModel", true);
-    setAddingStatus("model");
-  }, []);
+    const isAddingModel = addingStatus === "model";
+    setAdding(isAddingModel ? "none" : "model");
+  }, [addingStatus, setAdding]);
 
   const addModelBtnStyle = useMemo(() => {
     return {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      gap: "8px",
-      padding: 0,
-      color: "#fff",
-      background: addingStatus === "model" ? "#ADADAD" : "var(--theme-color)",
-      borderColor: addingStatus === "model" ? "#ADADAD" : "var(--theme-color)",
+      ...addBtnStyle,
+      color: addingStatus === "model" ? "rgba(0, 0, 0, 0.25)" : "#FFF",
+      background: addingStatus === "model" ? "#F5F5F5" : "var(--theme-color)",
+      borderColor: addingStatus === "model" ? "#D9D9D9" : "var(--theme-color)",
     };
-  }, [addingStatus]);
+  }, [addBtnStyle, addingStatus]);
 
   // labels
   const [labelList, setLabelList] = useState<Label[]>([]);
 
-  const addLabel = useCallback((label: Label) => {
-    setLabelList((list) => [...list, label]);
-    setAddingStatus("none");
-  }, []);
+  const addLabel = useCallback(
+    (label: Label) => {
+      setLabelList((list) => [...list, label]);
+      setAdding("none");
+    },
+    [setAdding]
+  );
 
   const updateLabel = useCallback((id: string, labeling: string) => {
     postMsg("updateLabel", { id, labeling });
@@ -107,22 +123,18 @@ export default () => {
   }, []);
 
   const startAddingLabel = useCallback(() => {
-    postMsg("setAddingLabel", true);
-    setAddingStatus("label");
-  }, []);
+    const isAddingLabel = addingStatus === "label";
+    setAdding(isAddingLabel ? "none" : "label");
+  }, [addingStatus, setAdding]);
 
   const addLabelBtnStyle = useMemo(() => {
     return {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      gap: "8px",
-      padding: 0,
-      color: "#fff",
-      background: addingStatus === "label" ? "#ADADAD" : "var(--theme-color)",
-      borderColor: addingStatus === "label" ? "#ADADAD" : "var(--theme-color)",
+      ...addBtnStyle,
+      color: addingStatus === "label" ? "rgba(0, 0, 0, 0.25)" : "#FFF",
+      background: addingStatus === "label" ? "#F5F5F5" : "var(--theme-color)",
+      borderColor: addingStatus === "label" ? "#D9D9D9" : "var(--theme-color)",
     };
-  }, [addingStatus]);
+  }, [addBtnStyle, addingStatus]);
 
   // common
   const actHandles: actHandles = useMemo(() => {

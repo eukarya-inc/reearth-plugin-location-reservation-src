@@ -8,7 +8,6 @@ import useHooks from "./hooks";
 
 const PanelOne: React.FC = () => {
   const {
-    addingStatus,
     areaList,
     updateArea,
     removeArea,
@@ -34,17 +33,19 @@ const PanelOne: React.FC = () => {
           onClick={startAddingArea}
           style={addAreaBtnStyle}
         >
-          {addingStatus !== "area" && <Icon icon="circle" size={16} />}
+          {/* {addingStatus !== "area" && <Icon icon="circle" size={16} />}
           <span>
             {addingStatus === "area"
               ? "地図をクリックして場所を指定してください"
               : "エリアを追加する"}
-          </span>
+          </span> */}
+          <Icon icon="circle" size={16} />
+          <span>エリアを追加する</span>
         </Button>
 
-        {addingStatus !== "area" && (
+        {/* {addingStatus !== "area" && (
           <EmptyTip>ボタンをクリックすると描画を開始します</EmptyTip>
-        )}
+        )} */}
 
         {areaList.map((area, index) => (
           <Card padding="0" gap="0" key={area.id}>
@@ -78,17 +79,19 @@ const PanelOne: React.FC = () => {
             onClick={startAddingModel}
             style={addModelBtnStyle}
           >
-            {addingStatus !== "model" && <Icon icon="model" size={16} />}
+            {/* {addingStatus !== "model" && <Icon icon="model" size={16} />}
             <span>
               {addingStatus === "model"
                 ? "地図をクリックして場所を指定してください"
                 : "3Dモデルを追加する"}
-            </span>
+            </span> */}
+            <Icon icon="model" size={16} />
+            <span>3Dモデルを追加する</span>
           </Button>
 
-          {addingStatus !== "model" && (
+          {/* {addingStatus !== "model" && (
             <EmptyTip>ボタンをクリックすると描画を開始します</EmptyTip>
-          )}
+          )} */}
 
           {modelList.map((model, index) => (
             <Card padding="0" gap="0" key={model.id}>
@@ -111,17 +114,19 @@ const PanelOne: React.FC = () => {
           onClick={startAddingLabel}
           style={addLabelBtnStyle}
         >
-          {addingStatus !== "label" && <Icon icon="text" size={16} />}
+          {/* {addingStatus !== "label" && <Icon icon="text" size={16} />}
           <span>
             {addingStatus === "label"
               ? "地図をクリックして場所を指定してください"
               : "テキストを追加する"}
-          </span>
+          </span> */}
+          <Icon icon="text" size={16} />
+          <span>テキストを追加する</span>
         </Button>
 
-        {addingStatus !== "label" && (
+        {/* {addingStatus !== "label" && (
           <EmptyTip>ボタンをクリックすると描画を開始します</EmptyTip>
-        )}
+        )} */}
 
         {labelList.map((label) => (
           <Card padding="0" gap="0" key={label.id}>
@@ -146,10 +151,10 @@ const PanelOne: React.FC = () => {
   );
 };
 
-const EmptyTip = styled.div`
-  color: #8c8c8c;
-  text-align: center;
-`;
+// const EmptyTip = styled.div`
+//   color: #8c8c8c;
+//   text-align: center;
+// `;
 
 const CardHeader = styled.div`
   display: flex;

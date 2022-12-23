@@ -10,9 +10,11 @@
   },
   "scripts": {
     "start": "vite -c vite.config.sidebar-web.ts",
-    "build": "run-s typecheck clean build:web build:plugin",
+    "start:indicator": "vite -c vite.config.indicator-web.ts",
+    "build": "run-s typecheck clean build:indicator:web build:web build:plugin",
     "build:plugin": "vite build -c vite.config.sidebar.ts",
     "build:web": "vite build -c vite.config.sidebar-web.ts",
+    "build:indicator:web": "vite build -c vite.config.indicator-web.ts",
     "package": "run-s build zip",
     "typecheck": "tsc",
     "test": "vitest",
