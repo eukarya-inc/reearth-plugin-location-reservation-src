@@ -29,7 +29,7 @@ const Footer: React.FC<Props> = ({ handleDownloadClick }) => {
           }}
         >
           <Icon icon="map" size={16} />
-          <span>Download Map</span>
+          <span>地図画面のダウンロード</span>
         </Button>
       </StyledFooter>
     </>
