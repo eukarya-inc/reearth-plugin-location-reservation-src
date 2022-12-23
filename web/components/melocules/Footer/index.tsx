@@ -12,7 +12,16 @@ const Footer: React.FC<Props> = ({ handleDownloadClick }) => {
       <StyledFooter>
         <Button
           onClick={handleDownloadClick}
-          type="default"
+          href="https://marketplace.reearth.io/plugins/reearth-plugin-location-reservation"
+          target="_blank"
+        >
+          <LinkWrapper>
+            <Icon icon="question" size={16} />
+            <span style={{ lineHeight: "22px" }}>Read me</span>
+          </LinkWrapper>
+        </Button>
+        <Button
+          onClick={handleDownloadClick}
           style={{
             display: "flex",
             alignItems: "center",
@@ -35,6 +44,15 @@ const StyledFooter = styled.div`
   flex: 0 0 auto;
   height: 46px;
   padding: 0px 16px;
+  gap: 10px;
+`;
+
+const LinkWrapper = styled.div`
+  display: flex;
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 `;
 
 export default Footer;

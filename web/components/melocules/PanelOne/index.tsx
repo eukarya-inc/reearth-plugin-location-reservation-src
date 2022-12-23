@@ -8,18 +8,22 @@ import useHooks from "./hooks";
 
 const PanelOne: React.FC = () => {
   const {
+    addingStatus,
     areaList,
     updateArea,
     removeArea,
     startAddingArea,
+    addAreaBtnStyle,
     modelList,
     modelURL,
     removeModel,
     startAddingModel,
+    addModelBtnStyle,
     labelList,
     updateLabel,
     removeLabel,
     startAddingLabel,
+    addLabelBtnStyle,
   } = useHooks();
 
   return (
@@ -28,19 +32,18 @@ const PanelOne: React.FC = () => {
         <Button
           type="primary"
           onClick={startAddingArea}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "8px",
-          }}
+          style={addAreaBtnStyle}
         >
-          <Icon icon="circle" size={16} />
-          <span>Add Area</span>
+          {addingStatus !== "area" && <Icon icon="circle" size={16} />}
+          <span>
+            {addingStatus === "area"
+              ? "地図をクリックして場所を指定してください"
+              : "エリアを追加する"}
+          </span>
         </Button>
 
-        {areaList.length === 0 && (
-          <EmptyTip>Click the button and draw on the map please</EmptyTip>
+        {addingStatus !== "area" && (
+          <EmptyTip>ボタンをクリックすると描画を開始します</EmptyTip>
         )}
 
         {areaList.map((area, index) => (
@@ -73,19 +76,18 @@ const PanelOne: React.FC = () => {
           <Button
             type="primary"
             onClick={startAddingModel}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "8px",
-            }}
+            style={addModelBtnStyle}
           >
-            <Icon icon="car" size={16} />
-            <span>Add 3D Model</span>
+            {addingStatus !== "model" && <Icon icon="model" size={16} />}
+            <span>
+              {addingStatus === "model"
+                ? "地図をクリックして場所を指定してください"
+                : "3Dモデルを追加する"}
+            </span>
           </Button>
 
-          {modelList.length === 0 && (
-            <EmptyTip>Click the button and draw on the map please</EmptyTip>
+          {addingStatus !== "model" && (
+            <EmptyTip>ボタンをクリックすると描画を開始します</EmptyTip>
           )}
 
           {modelList.map((model, index) => (
@@ -107,19 +109,18 @@ const PanelOne: React.FC = () => {
         <Button
           type="primary"
           onClick={startAddingLabel}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "8px",
-          }}
+          style={addLabelBtnStyle}
         >
-          <Icon icon="text" size={16} />
-          <span>Add Text</span>
+          {addingStatus !== "label" && <Icon icon="text" size={16} />}
+          <span>
+            {addingStatus === "label"
+              ? "地図をクリックして場所を指定してください"
+              : "テキストを追加する"}
+          </span>
         </Button>
 
-        {labelList.length === 0 && (
-          <EmptyTip>Click the button and draw on the map please</EmptyTip>
+        {addingStatus !== "label" && (
+          <EmptyTip>ボタンをクリックすると描画を開始します</EmptyTip>
         )}
 
         {labelList.map((label) => (

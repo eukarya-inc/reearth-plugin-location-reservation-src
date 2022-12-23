@@ -18,11 +18,14 @@ export type Label = {
   layerId: string;
 };
 export default () => {
+  // add status
+  const [addingStatus, setAddingStatus] = useState<string>("none");
   // areas
   const [areaList, setAreaList] = useState<Area[]>([]);
 
   const addArea = useCallback((area: Area) => {
     setAreaList((list) => [...list, area]);
+    setAddingStatus("none");
   }, []);
 
   const updateArea = useCallback((id: string, radius: number) => {
@@ -36,7 +39,21 @@ export default () => {
 
   const startAddingArea = useCallback(() => {
     postMsg("setAddingArea", true);
+    setAddingStatus("area");
   }, []);
+
+  const addAreaBtnStyle = useMemo(() => {
+    return {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: "8px",
+      padding: 0,
+      color: "#fff",
+      background: addingStatus === "area" ? "#ADADAD" : "var(--theme-color)",
+      borderColor: addingStatus === "area" ? "#ADADAD" : "var(--theme-color)",
+    };
+  }, [addingStatus]);
 
   // models
   const [modelList, setModelList] = useState<Model[]>([]);
@@ -46,6 +63,7 @@ export default () => {
 
   const addModel = useCallback((model: Model) => {
     setModelList((list) => [...list, model]);
+    setAddingStatus("none");
   }, []);
 
   const removeModel = useCallback((id: string, layerId: string) => {
@@ -55,13 +73,28 @@ export default () => {
 
   const startAddingModel = useCallback(() => {
     postMsg("setAddingModel", true);
+    setAddingStatus("model");
   }, []);
+
+  const addModelBtnStyle = useMemo(() => {
+    return {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: "8px",
+      padding: 0,
+      color: "#fff",
+      background: addingStatus === "model" ? "#ADADAD" : "var(--theme-color)",
+      borderColor: addingStatus === "model" ? "#ADADAD" : "var(--theme-color)",
+    };
+  }, [addingStatus]);
 
   // labels
   const [labelList, setLabelList] = useState<Label[]>([]);
 
   const addLabel = useCallback((label: Label) => {
     setLabelList((list) => [...list, label]);
+    setAddingStatus("none");
   }, []);
 
   const updateLabel = useCallback((id: string, labeling: string) => {
@@ -75,7 +108,21 @@ export default () => {
 
   const startAddingLabel = useCallback(() => {
     postMsg("setAddingLabel", true);
+    setAddingStatus("label");
   }, []);
+
+  const addLabelBtnStyle = useMemo(() => {
+    return {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: "8px",
+      padding: 0,
+      color: "#fff",
+      background: addingStatus === "label" ? "#ADADAD" : "var(--theme-color)",
+      borderColor: addingStatus === "label" ? "#ADADAD" : "var(--theme-color)",
+    };
+  }, [addingStatus]);
 
   // common
   const actHandles: actHandles = useMemo(() => {
@@ -100,17 +147,21 @@ export default () => {
   }, []);
 
   return {
+    addingStatus,
     areaList,
     updateArea,
     removeArea,
     startAddingArea,
+    addAreaBtnStyle,
     modelList,
     modelURL,
     removeModel,
     startAddingModel,
+    addModelBtnStyle,
     labelList,
     updateLabel,
     removeLabel,
     startAddingLabel,
+    addLabelBtnStyle,
   };
 };
