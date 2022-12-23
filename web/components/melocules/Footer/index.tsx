@@ -13,6 +13,9 @@ const Footer: React.FC<Props> = ({ handleDownloadClick }) => {
         <Button
           href="https://marketplace.reearth.io/plugins/reearth-plugin-location-reservation"
           target="_blank"
+          style={{
+            padding: "0 10px",
+          }}
         >
           <LinkWrapper>
             <Icon icon="question" size={16} />
@@ -26,6 +29,7 @@ const Footer: React.FC<Props> = ({ handleDownloadClick }) => {
             alignItems: "center",
             justifyContent: "center",
             gap: "8px",
+            padding: "0 10px",
           }}
         >
           <Icon icon="map" size={16} />
