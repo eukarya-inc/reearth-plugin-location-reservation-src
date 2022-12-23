@@ -11,7 +11,6 @@ const Footer: React.FC<Props> = ({ handleDownloadClick }) => {
     <>
       <StyledFooter>
         <Button
-          onClick={handleDownloadClick}
           href="https://marketplace.reearth.io/plugins/reearth-plugin-location-reservation"
           target="_blank"
         >
